@@ -2,6 +2,7 @@ from pathlib import Path
 from urllib.parse import quote_plus
 import base64
 import io
+import os
 
 import matplotlib
 matplotlib.use("Agg")
@@ -20,6 +21,10 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 from models import MLPModel, PerceptronModel
 
 BASE_DIR = Path(__file__).resolve().parent
+
+templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
+app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
+
 UPLOAD_FOLDER = BASE_DIR / "uploads"
 UPLOAD_FOLDER.mkdir(exist_ok=True)
 
