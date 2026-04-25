@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Neural Network Course - NN Educational Platform</title>
-    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
     <style>
       .course-container {
         max-width: 900px;
@@ -206,6 +206,6 @@
       </section>
     </div>
 
-    <script src="/static/script.js"></script>
+    <script src="{{ url_for('static', path='/script.js') }}"></script>
   </body>
 </html>
