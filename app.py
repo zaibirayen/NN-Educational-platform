@@ -619,10 +619,10 @@ def analyze_dataset(
     }
 
 
-app = FastAPI()
+app = FastAPI(debug=True)
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
-app = FastAPI(debug=True)
+
 
 @app.get("/")
 async def index(
