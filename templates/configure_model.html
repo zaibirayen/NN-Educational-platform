@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configure Model</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="page-header">
+        <div class="page-header-top">
+          <div>
+            <h1>Configure your model</h1>
+            <p>Selected dataset: <strong>{{ selected_dataset }}</strong></p>
+            <p>Problem type: <strong>{{ task|replace("_", " ") }}</strong></p>
+          </div>
+          <a href="/model?selected_dataset={{ selected_dataset }}" class="page-action arrow-button" title="Back to task selection">←</a>
+        </div>
+      </header>
+
+      <form id="trainForm" class="model-options" action="/run_model" method="get">
+        <input type="hidden" name="task" value="{{ task }}" />
+        <input type="hidden" name="selected_dataset" value="{{ selected_dataset }}" />
+
+        <div class="form-row">
+          <label for="model_architecture">Model architecture</label>
+          <select id="model_architecture" name="model_architecture" required>
+            <option value="historical_perceptron">Historical Perceptron</option>
+            <option value="single_perceptron">Single Perceptron</option>
+            <option value="multi_layer_perceptron">Multi Layer Perceptron</option>
+            <option value="sklearn_linear">Scikit-learn Linear Model</option>
+            <option value="sklearn_mlp">Scikit-learn MLP</option>
+          </select>
+          <small id="architectureHint">Sklearn models will be compared against a custom baseline during baseline training.</small>
+        </div>
+
+        <div class="form-row">
+          <label for="experiment">Experiment mode</label>
+          <select id="experiment" name="experiment" required>
+            <option value="baseline">Baseline training</option>
+            <option value="compare_models">Perceptron vs MLP</option>
+            <option value="layer_effect">Effect of number of layers</option>
+            <option value="regularization">Overfitting vs regularization</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="learning_rate">Learning rate</label>
+          <input id="learning_rate" name="learning_rate" type="number" step="0.01" min="0.001" max="1" value="0.05" />
+        </div>
+
+        <div class="form-row">
+          <label for="epochs">Epochs</label>
+          <input id="epochs" name="epochs" type="number" min="10" max="1000" value="200" />
+        </div>
+
+        <div class="form-row">
+          <label for="l2">Regularization strength (L2)</label>
+          <input id="l2" name="l2" type="number" step="0.01" min="0" max="1" value="0.00" />
+        </div>
+
+        <div class="form-row">
+          <label for="split_ratio">Train / Test split</label>
+          <input id="split_ratio" name="split_ratio" type="number" step="0.05" min="0.05" max="0.45" value="0.20" />
+          <small>Fraction of data reserved for test.</small>
+        </div>
+
+        <div class="form-row">
+          <label for="hidden_layers">Number of hidden layers</label>
+          <input id="hidden_layers" name="hidden_layers" type="number" min="0" max="6" value="0" />
+        </div>
+
+        <div class="form-row">
+          <label for="neurons">Neurons per layer</label>
+          <input id="neurons" name="neurons" type="text" placeholder="Example: 10,20,10" />
+          <small>Use comma-separated values for each hidden layer.</small>
+        </div>
+
+        <div class="form-row">
+          <label for="activation">Activation function</label>
+          <select id="activation" name="activation" required>
+            <option value="Sigmoid">Sigmoid</option>
+            <option value="ReLu">ReLu</option>
+            <option value="Tanh">Tanh</option>
+            <option value="Softmax">Softmax</option>
+          </select>
+        </div>
+
+        <button type="submit" class="button model-button">Train</button>
+      </form>
+      <div id="trainStatus" class="training-status"></div>
+    </div>
+  </body>
+</html>

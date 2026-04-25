@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Model Result</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="page-header">
+        <div class="page-header-top">
+          <div>
+            <h1>{{ task_name }}</h1>
+            <p>{{ task_description }}</p>
+          </div>
+          <a href="/model{{ selected_query }}" class="page-action arrow-button" title="Back to model selection">←</a>
+        </div>
+      </header>
+
+      <section class="result-card">
+        <h2>Result overview</h2>
+        {% if usable %}
+        <p class="result-summary">{{ summary }}</p>
+        {% if experiment_name %}
+        <div class="result-grid">
+          <div>
+            <h3>Experiment</h3>
+            <p>{{ experiment_name }}</p>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if comparison_results %}
+        <section class="comparison-table">
+          <h3>Experiment comparison</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Setup</th>
+                <th>Metric</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in comparison_results %}
+              <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.metric_text }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </section>
+        {% endif %}
+
+        <div class="result-grid">
+          <div>
+            <h3>Dataset</h3>
+            <p>{{ selected_dataset }}</p>
+            <p>{{ dataset_info }}</p>
+          </div>
+          <div>
+            <h3>Model metrics</h3>
+            <p>{{ metric_text }}</p>
+          </div>
+        </div>
+
+        <div class="result-grid">
+          <div>
+            <h3>Model selection</h3>
+            <p><strong>Architecture:</strong> {{ model_architecture|replace("_", " ") }}</p>
+            <p><strong>Activation:</strong> {{ activation }}</p>
+          </div>
+          <div>
+            <h3>Model inputs</h3>
+            <p><strong>Hidden layers:</strong> {{ hidden_layers }}</p>
+            <p><strong>Neurons per layer:</strong> {{ neurons }}</p>
+          </div>
+        </div>
+
+        <div class="result-extra">
+          <p><strong>Preprocessing:</strong> {{ preprocess_info }}</p>
+          <p><strong>Notes:</strong> {{ details }}</p>
+        </div>
+
+        {% if plot_images %}
+        <section class="plot-grid">
+          {% for plot in plot_images %}
+          <div class="plot-card">
+            <h3>{{ plot.title }}</h3>
+            <img src="{{ plot.src }}" alt="{{ plot.title }}" />
+          </div>
+          {% endfor %}
+        </section>
+        {% endif %}
+
+        {% if sklearn_comparison %}
+        <section class="result-card">
+          <h2>Comparison with sklearn</h2>
+          <p>Comparing our custom neural network implementation with scikit-learn's built-in models.</p>
+          <div class="result-grid">
+            {% for item in sklearn_comparison %}
+            <div>
+              <h3>{{ item.name }}</h3>
+              <p><strong>Score:</strong> {{ item.score }}</p>
+              <p><strong>Details:</strong> {{ item.details }}</p>
+            </div>
+            {% endfor %}
+          </div>
+        </section>
+        {% endif %}
+
+        <section class="result-card interactive-section">
+          <h2>Advanced Interactive Interface</h2>
+          <p>Explore the model predictions and performance metrics interactively.</p>
+          
+          <div class="interactive-controls">
+            <label>
+              <input type="checkbox" id="togglePredictions" checked> Show Predictions
+            </label>
+            <label>
+              <input type="checkbox" id="toggleActual" checked> Show Actual Values
+            </label>
+            <label>
+              <input type="checkbox" id="toggleErrors"> Highlight Errors
+            </label>
+          </div>
+
+          <div class="prediction-table-container">
+            <table class="prediction-table" id="predictionTable">
+              <thead>
+                <tr>
+                  <th>Index</th>
+                  <th>Actual</th>
+                  <th>Predicted</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for pred in predictions %}
+                <tr class="prediction-row" data-correct="{{ pred.correct }}">
+                  <td>{{ pred.index }}</td>
+                  <td>{{ pred.actual }}</td>
+                  <td>{{ pred.predicted }}</td>
+                  <td>
+                    {% if pred.correct %}
+                    <span class="status-correct">✓</span>
+                    {% else %}
+                    <span class="status-incorrect">✗</span>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="interactive-stats">
+            <div class="stat-box">
+              <h4>Correct Predictions</h4>
+              <p class="stat-value">{{ correct_count }}</p>
+            </div>
+            <div class="stat-box">
+              <h4>Incorrect Predictions</h4>
+              <p class="stat-value">{{ incorrect_count }}</p>
+            </div>
+            <div class="stat-box">
+              <h4>Accuracy</h4>
+              <p class="stat-value">{{ accuracy_percent }}%</p>
+            </div>
+          </div>
+        </section>
+
+        {% if network_visualization %}
+        <section class="result-card">
+          <h2>3D Neural Network Visualization</h2>
+          <p>Interactive 3D visualization of the neural network architecture.</p>
+          <div class="network-viz-container">
+            <div class="network-3d-view" id="network3D">
+              <div class="layer-visualization">
+                {% for layer in network_visualization.layers %}
+                <div class="layer-column" style="--layer-index: {{ loop.index0 }}">
+                  <div class="layer-label">Layer {{ loop.index0 + 1 }}</div>
+                  <div class="neurons-container">
+                    {% for neuron in range(layer.neurons) %}
+                    <div class="neuron-3d" style="--neuron-index: {{ loop.index0 }}">
+                      <div class="neuron-sphere"></div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <div class="layer-info">{{ layer.neurons }} neurons</div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="viz-controls">
+              <button id="rotateLeft">↺ Rotate Left</button>
+              <button id="rotateRight">↻ Rotate Right</button>
+              <button id="toggleView">Toggle 2D/3D</button>
+            </div>
+          </div>
+        </section>
+        {% endif %}
+        {% else %}
+        <div class="error-callout">{{ message }}</div>
+        {% endif %}
+      </section>
+    </div>
+  </body>
+</html>

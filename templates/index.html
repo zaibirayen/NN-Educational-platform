@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NN Educational Platform</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="page-header">
+        <div class="page-header-top">
+          <div>
+            <h1>NN Educational Platform</h1>
+            <p>Upload your own dataset or choose the Iris dataset to start immediately.</p>
+          </div>
+          <a href="/course" class="info-button" title="Learn about Neural Networks">ℹ️</a>
+          <a href="/model{{ selected_query }}" class="page-action arrow-button" title="Choose model type">→</a>
+        </div>
+      </header>
+
+      <div class="split-layout">
+        <section class="panel panel-left">
+          <h2>Load a dataset</h2>
+          <form id="uploadForm" action="/" method="post" enctype="multipart/form-data">
+            <label class="file-label" for="database">
+              Choose a dataset from your computer
+            </label>
+            <input type="file" id="database" name="database" accept=".csv,.xlsx,.json,.txt,.db" />
+            <div id="selectedFile" class="selected-file">No file selected</div>
+
+            <div class="button-row">
+              <button type="submit" class="button primary">Upload Dataset</button>
+              <a href="/iris" class="button secondary">Use Iris Dataset</a>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel panel-right">
+          <div class="selected-dataset-card">
+            <h2>Selected dataset</h2>
+            <p class="dataset-name">{{ selected_dataset or "No dataset selected yet" }}</p>
+            {% if selected_dataset %}
+            <p class="dataset-detail">This dataset is ready for analysis.</p>
+            {% endif %}
+          </div>
+
+          <section class="info-box">
+            <h2>Saved files</h2>
+            {% if uploaded_files %}
+            <ul>
+              {% for filename in uploaded_files %}
+              <li>{{ filename }}</li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <p>No dataset files uploaded yet.</p>
+            {% endif %}
+          </section>
+
+          {% if message %}
+          <div class="messages">
+            <div class="message">{{ message }}</div>
+          </div>
+          {% endif %}
+        </section>
+      </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+  </body>
+</html>

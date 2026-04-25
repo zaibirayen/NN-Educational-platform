@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Model Choosing</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="container1">
+      <header class="page-header">
+        <div class="page-header-top">
+          <div>
+            <h1>Model Choosing</h1>
+            <p>Choose one of the three model tasks.</p>
+            {% if selected_dataset %}
+            <p class="dataset-selection">Selected dataset: <strong>{{ selected_dataset }}</strong></p>
+            {% endif %}
+          </div>
+          
+        </div>
+      </header>
+
+      <form class="model-options model-page-form" action="/configure_model" method="get">
+        <input type="hidden" name="selected_dataset" value="{{ selected_dataset }}" />
+        <div class="button-grid">
+          <button type="submit" name="task" value="binary" class="button model-button">Binary Classification</button>
+          <button type="submit" name="task" value="multi" class="button model-button">Multi-Class Classification</button>
+          <button type="submit" name="task" value="regression" class="button model-button">Regression</button>
+        </div>
+      </form>
+      <a href="/{% if selected_dataset %}?selected_dataset={{ selected_dataset | urlencode }}{% endif %}" class="page-action arrow-button" title="Back to dataset upload">←</a>
+    </div>
+  </body>
+</html>

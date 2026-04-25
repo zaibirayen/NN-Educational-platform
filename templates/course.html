@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neural Network Course - NN Educational Platform</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <style>
+      .course-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      .course-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e0e0e0;
+      }
+      .course-header h1 {
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+      .course-header p {
+        color: #666;
+        font-size: 1.1rem;
+      }
+      .lesson {
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .lesson h2 {
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+      }
+      .lesson p {
+        line-height: 1.7;
+        color: #444;
+        margin-bottom: 1rem;
+      }
+      .lesson ul {
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      .lesson li {
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+      }
+      .back-link {
+        display: inline-block;
+        margin-bottom: 1.5rem;
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .back-link:hover {
+        text-decoration: underline;
+      }
+      .concept-box {
+        background: #f8f9fa;
+        border-left: 4px solid #3498db;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 0 4px 4px 0;
+      }
+      .formula {
+        background: #2c3e50;
+        color: #fff;
+        padding: 0.75rem 1rem;
+        border-radius: 4px;
+        font-family: monospace;
+        margin: 0.5rem 0;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="course-container">
+      <a href="/" class="back-link">← Back to Home</a>
+      
+      <header class="course-header">
+        <h1>Neural Network Fundamentals</h1>
+        <p>A comprehensive course explaining the core concepts behind neural networks used in this project.</p>
+      </header>
+
+      <section class="lesson">
+        <h2>1. What is a Neural Network?</h2>
+        <p>A neural network is a computational model inspired by the biological neural networks in animal brains. It consists of interconnected nodes (neurons) organized in layers that process information.</p>
+        <p>Neural networks learn by adjusting the weights between connections based on the error between predicted and actual outputs. This process is called <strong>training</strong>.</p>
+        <div class="concept-box">
+          <strong>Key Insight:</strong> Neural networks are particularly good at finding complex patterns in data, making them ideal for classification and regression tasks.
+        </div>
+      </section>
+
+      <section class="lesson">
+        <h2>2. The Perceptron - Single Neuron</h2>
+        <p>The perceptron is the simplest form of a neural network - a single neuron that makes decisions by weighing input evidence.</p>
+        <p>A perceptron takes multiple inputs, multiplies each by a weight, sums them up, and applies an activation function to produce an output.</p>
+        <div class="concept-box">
+          <strong>Formula:</strong>
+          <br>
+          <span class="formula">output = activation(Σ(wᵢ × xᵢ) + b)</span>
+          <br>
+          Where wᵢ are weights, xᵢ are inputs, and b is the bias.
+        </div>
+      </section>
+
+      <section class="lesson">
+        <h2>3. Multi-Layer Perceptron (MLP)</h2>
+        <p>An MLP consists of:</p>
+        <ul>
+          <li><strong>Input Layer:</strong> Receives the raw data features</li>
+          <li><strong>Hidden Layer(s):</strong> Process and transform the data through weighted connections</li>
+          <li><strong>Output Layer:</strong> Produces the final prediction</li>
+        </ul>
+        <p>Our project uses the MLP architecture, which can learn non-linear relationships in data through multiple hidden layers.</p>
+      </section>
+
+      <section class="lesson">
+        <h2>4. Forward Propagation</h2>
+        <p>Forward propagation is the process of passing input data through the network to generate an output:</p>
+        <ol>
+          <li>Inputs are received at the input layer</li>
+          <li>Each neuron computes a weighted sum of its inputs</li>
+          <li>An activation function transforms the sum into an output</li>
+          <li>This output becomes the input for the next layer</li>
+          <li>The process repeats until the output layer produces a result</li>
+        </ol>
+        <div class="concept-box">
+          <strong>Activation Functions:</strong> Common activation functions include ReLU, Sigmoid, and Tanh. They introduce non-linearity, allowing the network to learn complex patterns.
+        </div>
+      </section>
+
+      <section class="lesson">
+        <h2>5. Backward Propagation (Backpropagation)</h2>
+        <p>Backpropagation is the learning algorithm that adjusts network weights based on prediction errors:</p>
+        <ol>
+          <li>Calculate the error at the output layer (difference between predicted and actual)</li>
+          <li>Propagate the error backward through the network</li>
+          <li>Compute how much each weight contributed to the error</li>
+          <li>Adjust weights to minimize the error</li>
+        </ol>
+        <p>This process uses the <strong>chain rule</strong> from calculus to compute gradients efficiently.</p>
+      </section>
+
+      <section class="lesson">
+        <h2>6. Loss Functions</h2>
+        <p>Loss functions measure how well the network is performing. The goal of training is to minimize this loss.</p>
+        <ul>
+          <li><strong>Mean Squared Error (MSE):</strong> Used for regression tasks - measures average squared difference between predicted and actual values</li>
+          <li><strong>Cross-Entropy:</strong> Used for classification tasks - measures the difference between probability distributions</li>
+        </ul>
+        <div class="concept-box">
+          <strong>Tip:</strong> Choose MSE for continuous outputs (like price prediction) and Cross-Entropy for categorical outputs (like species classification).
+        </div>
+      </section>
+
+      <section class="lesson">
+        <h2>7. Optimizers</h2>
+        <p>Optimizers determine how to update the network weights based on the computed gradients:</p>
+        <ul>
+          <li><strong>SGD (Stochastic Gradient Descent):</strong> Simple and effective, updates weights in the direction of the negative gradient</li>
+          <li><strong>Adam:</strong> Adaptive learning rate optimizer that combines momentum with RMSProp - often the best choice for deep learning</li>
+        </ul>
+        <p>The learning rate is a crucial hyperparameter that controls how big steps the optimizer takes during training.</p>
+      </section>
+
+      <section class="lesson">
+        <h2>8. Hyperparameters</h2>
+        <p>Hyperparameters are settings that you configure before training:</p>
+        <ul>
+          <li><strong>Number of Hidden Layers:</strong> More layers can learn more complex patterns but may overfit</li>
+          <li><strong>Number of Neurons per Layer:</strong> More neurons increase model capacity</li>
+          <li><strong>Learning Rate:</strong> Controls how fast the model learns</li>
+          <li><strong>Epochs:</strong> Number of times the entire dataset is passed through the network</li>
+          <li><strong>Batch Size:</strong> Number of samples processed before updating weights</li>
+        </ul>
+      </section>
+
+      <section class="lesson">
+        <h2>9. Model Evaluation</h2>
+        <p>After training, evaluate your model using various metrics:</p>
+        <ul>
+          <li><strong>Accuracy:</strong> Percentage of correct predictions</li>
+          <li><strong>Confusion Matrix:</strong> Shows true positives, true negatives, false positives, and false negatives</li>
+          <li><strong>Loss Curve:</strong> Visualize how loss changes over epochs to detect overfitting</li>
+        </ul>
+        <div class="concept-box">
+          <strong>Best Practice:</strong> Always split your data into training and testing sets to evaluate how well your model generalizes to unseen data.
+        </div>
+      </section>
+
+      <section class="lesson">
+        <h2>10. Summary</h2>
+        <p>Neural networks learn by:</p>
+        <ol>
+          <li><strong>Forward Pass:</strong> Processing input data through layers to get predictions</li>
+          <li><strong>Computing Loss:</strong> Measuring prediction error with a loss function</li>
+          <li><strong>Backward Pass:</strong> Propagating errors back through the network</li>
+          <li><strong>Updating Weights:</strong> Using an optimizer to minimize loss</li>
+        </ol>
+        <p>This project implements a Perceptron and MLP for classification tasks, allowing you to experiment with different architectures and hyperparameters.</p>
+      </section>
+    </div>
+
+    <script src="/static/script.js"></script>
+  </body>
+</html>
