@@ -635,14 +635,15 @@ async def index(
         f"?selected_dataset={quote_plus(selected_dataset)}" if selected_dataset else ""
     )
     return templates.TemplateResponse(
-        "index.html",
-        {
+        request=request,               # Pass request as a keyword
+        name="index.html",             # Pass the template name
+        context={                      # Use the 'context' keyword for your dict
             "request": request,
             "uploaded_files": uploaded_files,
             "message": message,
             "selected_dataset": selected_dataset,
             "selected_query": selected_query,
-        },
+        }
     )
 
 
