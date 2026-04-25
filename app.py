@@ -665,7 +665,7 @@ async def upload(database: UploadFile | None = File(None)):
         message = quote_plus("Only CSV, XLSX, JSON, TXT, or DB files are allowed.")
         return RedirectResponse(url=f"/?message={message}", status_code=303)
 
-    destination = UPLOAD_FOLDER / database.filename
+    destination = str(UPLOAD_FOLDER / database.filename)
     contents = await database.read()
     destination.write_bytes(contents)
 
