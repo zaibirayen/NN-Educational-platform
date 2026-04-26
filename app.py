@@ -650,8 +650,8 @@ async def index(
 @app.get("/course")
 async def course(request: Request):
     return templates.TemplateResponse(
-        "course.html",
-        {"request": request},
+        request=request,
+        name="course.html",
     )
 
 
@@ -696,8 +696,9 @@ async def model(
         f"?selected_dataset={quote_plus(selected_dataset)}" if selected_dataset else ""
     )
     return templates.TemplateResponse(
-        "model.html",
-        {
+        request=request,               # Pass request as a keyword
+        name="model.html",             # Pass the template name
+        context={
             "request": request,
             "selected_dataset": selected_dataset,
             "selected_query": selected_query,
@@ -716,8 +717,9 @@ async def configure_model(
         return RedirectResponse(url=f"/?message={message}", status_code=303)
 
     return templates.TemplateResponse(
-        "configure_model.html",
-        {
+        request=request,               # Pass request as a keyword
+        name="configure_model.html",             # Pass the template name
+        context={
             "request": request,
             "task": task,
             "selected_dataset": selected_dataset,
@@ -914,10 +916,11 @@ async def run_model(
                 "title": "Experiment comparison",
                 "src": plot_experiment_comparison(comparison_results, experiment_name, task_key),
             })
-
+        
         return templates.TemplateResponse(
-            "model_result.html",
-            {
+            request=request,               # Pass request as a keyword
+            name="model_result.html",             # Pass the template name
+            context={
                 "request": request,
                 "selected_dataset": selected_dataset,
                 "selected_query": selected_query,
@@ -948,8 +951,9 @@ async def run_model(
     except Exception as exc:
         message = str(exc)
         return templates.TemplateResponse(
-            "model_result.html",
-            {
+            request=request,               # Pass request as a keyword
+            name="model_result.html",             # Pass the template name
+            context={
                 "request": request,
                 "selected_dataset": selected_dataset,
                 "selected_query": selected_query,
